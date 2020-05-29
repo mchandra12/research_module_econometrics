@@ -1,0 +1,64 @@
+\appendix
+\section{Appendix}
+%\pagenumbering{roman}
+\subsection{Deriving the approximate expression of 2SLS Bias}
+This derivation has been adopted from \cite{results}. Start with the representation of the 2SLS estimator as shown in equation (2.8).
+\begin{equation}
+\hat{\beta }_{2SLS}=(\textbf{X}'P_{Z}\textbf{X})^{-1}\textbf{X}'P_{Z}\textbf{Y}=\beta+(\textbf{X}'P_{Z}\textbf{X})^{-1}\textbf{X}'P_{Z}\varepsilon
+\end{equation}
+where $P_{Z}=\textbf{Z}(\textbf{Z}'\textbf{Z})^{-1}\textbf{Z}'$ is the projection matrix.
+So the bias of $\hat{\beta }_{2SLS}$ will be
+\begin{equation}
+\hat{\beta }_{2SLS}-\beta = (\textbf{X}'P_{Z}\textbf{X})^{-1}(\pi'\textbf{Z}'+\eta')P_{Z}\varepsilon
+                          = (\textbf{X}'P_{Z}\textbf{X})^{-1}\pi'\textbf{Z}'\varepsilon +(\textbf{X}'P_{Z}\textbf{X})^{-1}\eta' P_{Z}\varepsilon
+\end{equation}
+Using group asymptotics the expectation of this expression can presented as:
+\begin{equation}
+    E[\hat{\beta }_{2SLS}-\beta ]\approx (E[{\textbf{X}}'P_{Z}\textbf{X}])^{-1}E[{\pi}'{\textbf{Z}}'\varepsilon ]+(E[{\textbf{X}}'P_{Z}\textbf{X}])^{-1}E[{\eta }'P_{Z}\varepsilon ]
+\end{equation}
+$Z_{i}$ instruments are uncorrelated with $\varepsilon_{i}$ and $\eta_{i}$, so $E[{\pi }'{\textbf{Z}}'\varepsilon ]=0 $ and we will have
+\begin{equation}
+    E[\hat{\beta }_{2SLS}-\beta ]\approx (E[{\textbf{X}}'P_{Z}\textbf{X}])^{-1}E[{\pi}'{\textbf{Z}}'\varepsilon ]+(E[{\textbf{X}}'P_{Z}\textbf{X}])^{-1}E[{\eta }'P_{Z}\varepsilon ]=(E[{\textbf{X}}'P_{Z}\textbf{X}])^{-1}E[{\eta }'P_{Z}\varepsilon]
+\end{equation}
+Substituting the first stage equation $\textbf{X}=\textbf{Z}\pi +\eta$ we have
+\begin{equation}
+E[\hat{\beta }_{2SLS}-\beta ]\approx (E[({\pi }'{\textbf{Z}}'+{\eta }')P_{Z}(\textbf{Z}\pi +\eta )])^{-1}E[{\eta }'P_{Z}\varepsilon ]
+\end{equation}
+We have that $E[{\pi }'{\textbf{Z}}'\eta ]=0 $, so
+\begin{equation}
+    E[\hat{\beta }_{2SLS}-\beta ]\approx[E({\pi }'{\textbf{Z}}'\textbf{Z}\pi )+E({\eta }'P_{Z}\eta )]^{-1}E({\eta }'P_{Z}\varepsilon )
+\end{equation}
+Notice that ${\eta }'P_{Z}\eta$ is a scalar and is equal to its trace. $P_{Z}$ is an idempotent matrix, so its trace is equal to its rank, Q. So
+\begin{equation}
+    E({\eta }'P_{Z}\eta)=E[tr({\eta }'P_{Z}\eta)]=E[tr(P_{Z}\eta{\eta }')]=tr(P_{Z}E[\eta{\eta }'])=tr(P_{Z}\sigma _{\eta }^{2}I)=\sigma _{\eta }^{2}tr(P_{Z})=\sigma _{\eta }^{2}Q
+\end{equation}
+With a similar technique we can show that  $E({\eta }'P_{Z}\varepsilon)$ is equal to $\sigma _{\varepsilon \eta }Q$.
+Substituting these results in equation (A.6) we have
+\begin{equation}
+   E[\hat{\beta }_{2SLS}-\beta]\approx\sigma _{\varepsilon \eta }Q[E({\pi }'{\textbf{Z}}'\textbf{Z}\pi )+\sigma _{\eta }^{2}Q]^{-1}=\frac{\sigma_{\varepsilon\eta }}{\sigma  _{\eta }^{2}}[\frac{E(\pi'\textbf{Z}'\textbf{Z}\pi)/Q}{\sigma _{\eta }^{2}}+1]^{-1}
+\end{equation}
+The population F-statistic for the first stage regression is the following
+\begin{equation}
+    F=\frac{E(\pi'\textbf{Z}'\textbf{Z}\pi)/Q}{\sigma _{\eta }^{2}}
+    \end{equation}
+So (A.8) can be expressed as
+\begin{equation}
+    E[\hat{\beta }_{2SLS}-\beta]\approx \frac{\sigma_{\varepsilon\eta }}{\sigma  _{\eta }^{2}}\frac{1}{F+1}
+\end{equation}
+
+Assume that the ${\pi}$ coefficients are zero and $F=0$. In this case $\sigma_{X}^{2}=\sigma_{\eta }^{2}$ and
+\begin{equation}
+    E[\hat{\beta }_{2SLS}-\beta]\approx \frac{\sigma_{\varepsilon\eta }}{\sigma  _{X}^{2}}
+\end{equation}
+
+Thus, when $\pi\neq 0$ and F is small, then 2SLS will be biased towards OLS. 
+
+Note that $\frac{\sigma_{\varepsilon\eta }}{\sigma  _{X}^{2}}$ is also the bias of OLS estimator, because when $\pi=0$, $cov(\varepsilon _{i},X_{i})=\sigma _{\eta \varepsilon }$ and
+\begin{equation}
+    \beta _{OLS} = \frac{cov(Y_{i},X_{i})}{var(X_{i})} = \frac{cov(\beta X_{i}+\varepsilon  _{i},X_{i})}{var(X_{i})} = \beta + \frac{cov(\varepsilon  _{i},X_{i})}{var(X_{i})} = \frac{\sigma _{\varepsilon \eta }}{\sigma _{X}^{2}}
+\end{equation}
+Hence in this case OLS and 2SLS estimators on average are the same. And if $\pi$ is different from zero, $\hat{\beta }_{2SLS}$ will be biased in the direction of OLS estimator. If we add weak instruments to the regression bias of 2SLS will only increase. \\
+
+\newpage
+
+

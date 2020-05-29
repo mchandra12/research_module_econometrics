@@ -1,0 +1,57 @@
+\documentclass[12pt, a4paper]{article}
+\setlength{\textheight}{23cm}
+\setlength{\textwidth}{15cm}
+\pagestyle{plain}
+\setlength{\topmargin}{0.cm}
+\setlength{\evensidemargin}{0pt}
+\setlength{\oddsidemargin}{0pt}
+\usepackage{graphics}
+\usepackage{amsmath}
+\usepackage[symbol]{footmisc}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{natbib}
+
+
+\begin{document}
+\baselineskip=18pt
+\thispagestyle{empty}
+
+\begin{center}
+{\Large {\bf Weak Instrumental Variables:  Limitations of Traditional 2SLS and  Exploring Alternative IV Estimators}}\\
+\vspace{1.75cm} {\large Madhurima Chandra}\footnote{s6machan@uni-bonn.de}\\
+\vspace{0.75cm}{\large Research Module in Econometrics and Statistics 2019-20}
+\vspace{0.15cm}\\{\large University of Bonn}
+\vspace{0.75cm}\\
+\begin{abstract}
+    This paper delves into theoretical aspects of weak instrumental variables. We present the problems the two-stage least squares instrumental variables estimator runs into in presence of weak instruments, rendering our estimates biased. We take a deeper look at defining and testing for weakness of instruments. We then present two alternative estimators which are partially robust with weak instruments.
+\end{abstract}
+\end{center}
+
+
+\newpage
+\thispagestyle{empty}
+\setcounter{tocdepth}{3}
+\tableofcontents
+\newpage
+
+
+\pagenumbering{arabic}
+
+\input{ch01}
+\input{ch02}
+\input{ch03}
+\input{ch04}
+\newpage
+\input{appendix}
+
+%\pagenumbering{roman} % Changes page numbering to roman page numbers
+%\bibliography{literature}
+
+\bibliography{bibliography.bib} % Add the filename of your bibliography
+\bibliographystyle{chicago}
+% Defines your bibliography style
+
+\end{document}

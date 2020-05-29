@@ -1,0 +1,137 @@
+\section{Two-Stage Least Squares and its Limitations}
+
+\subsection{Basic Model}
+Throughout the paper, unless stated otherwise, we consider the following basic model with two equations, following the notation of \cite{angrist1999jackknife}:
+\begin{align*}
+Y_i &= X_i\beta + \varepsilon_i \\
+X_i &= Z_i\pi + \eta_i
+\end{align*}
+$Y_i$ is scalar. $X_i$ is $1\times L$ row vector of potentially endogenous regressors. 
+$Z_i$ is $1\times K$ row vector, with $K\geq L$. 
+$K-L$ is the number of over-identifying restrictions. In matrix notation:\\
+\begin{align}
+\underset{(N\times 1)}{\mathbf{Y}} = \underset{(N\times L)}{\mathbf{X}}\beta + \underset{(N\times 1)}{\varepsilon} \\
+\underset{(N\times L)}{\mathbf{X}} =  \underset{(N\times K)}{\mathbf{Z}}\pi + \underset{(N\times L)}{\eta}
+\end{align}
+where (2.1) denotes the structural equation, (2.2) is the first stage. $\mathbf{Y}$ and $\varepsilon$ are $N \times 1$ vectors. 
+$\mathbf{X}$ and $\eta$ are $N \times L$ matrices, and $\mathbf{Z}$ is $N \times K$ matrix. If the vectors of regressors and that of instruments have $M$ common elements, then $M$ columns of the $N \times L$ matrix $\eta$ have their elements as zero.
+\par The following assumptions hold for our model:
+\begin{enumerate}
+\item Conditional on instruments $Z_i$, the error term $\varepsilon_i$ has expectation zero ($E[\varepsilon_i|Z_i]=0$) and variance $\sigma^2$.
+\item $E[\eta|\mathbf Z]=0$ and $E[\eta_i^\prime\eta_i|\mathbf Z]=\Sigma_\eta$, with rank $L-M$.
+\item $E[\varepsilon_i\eta_i^\prime|\mathbf Z]=\sigma_{\varepsilon\eta}$, where $\sigma_{\varepsilon\eta}$ is an L-dimensional column vector.
+\item All observations of ($Y_i, X_i, Z_i$) are independent and identically distributed.
+\end{enumerate}
+
+\subsection{Concentration Parameter}
+The Concentration Parameter $\mu^2$, given by:
+        \begin{equation}
+  \mu^2 = \frac{\pi' Z' Z \pi}{\sigma_{\eta}^2}
+        \end{equation}
+measures the strength of the instruments. It is unitless. An important question to be addressed at this point is that since $\pi$, and thus $\mu^2$, is unknown, how is the researcher supposed to know whether $\mu^2$ value is low enough for the instrument under study to be weak? This is addressed by the fact that the concentration parameter can be interpreted in terms of the first stage F statistic, discussed in Section 3. If the sample size is large, $E(F) \cong \mu^2/K + 1$, and thus $F-1$ can be treated as an estimator of $\mu^2 /K$, which gives us a convenient way to test for weak instruments. 
+
+
+\par The concept of $\mu^2$ is essentially the starting point for understanding the weak instruments literature. \cite{rothenberg1984approximating} showed that the concentration parameter plays the role we commonly associate with the sample size or number of observations: as $\mu^2$ becomes large, the normal distribution becomes a good approximation for the 2SLS distribution. Likewise a small concentration parameter leads to a non-normal distribution of 2SLS, and the estimator becomes biased. Thus $\mu^2$ can be interpreted as the effective sample size.
+
+
+\subsection{Two-Stage Least Squares Estimator}
+
+It is helpful to characterize the 2SLS and (later on the jackknife estimator as well), as a feasible version of the ideal but infeasible instrumental variables estimator. Adhering to the notation defined in section 2.1, we derive the formula for the 2SLS estimator using this characterization. The derivation is adopted, with modifications to the notation, from \cite{brucehansen2019} and \cite{angrist1999jackknife}. 
+\par First, we estimate the ideal estimator $\hat\beta_{OPT}$ using the optimal instrument $Z\pi$, by ordinary least-squares:
+\begin{equation}
+\hat\beta_{OPT}= ((\mathbf{Z}\pi)'\mathbf{X})^{-1}((\mathbf{Z}\pi)'\mathbf{Y})
+\end{equation}
+$\pi$ is unknown however, and so the optimal estimator $\hat\beta_{OPT}$ is infeasible.
+
+We use an estimate of $\pi$ instead, and denote it  by $\hat\pi$. $\hat\pi$ is estimated from the reduced form regression which yields $\hat\pi = (\mathbf{Z}'\mathbf{Z})^{-1}(\mathbf{Z}'\mathbf{X})$. Substituting $\hat\pi$ into (2.4),
+\begin{equation}
+\hat\beta_{2SLS}= ((\mathbf{Z}\hat\pi)'(\mathbf{Z}\hat\pi))^{-1}((\mathbf{Z}\hat\pi)'\mathbf{Y})
+\end{equation}
+\begin{equation}
+\hat\beta_{2SLS}= ((\mathbf{Z}(\mathbf{Z}'\mathbf{Z})^{-1}(\mathbf{Z}'\mathbf{X}))'(\mathbf{Z}(\mathbf{Z}'\mathbf{Z})^{-1}(\mathbf{Z}'\mathbf{X}))^{-1}((\mathbf{Z}(\mathbf{Z}'\mathbf{Z})^{-1}(\mathbf{Z}'\mathbf{X}))'\mathbf{Y})
+\end{equation}
+\begin{equation}
+\hat\beta_{2SLS}= ((\mathbf{X}'\mathbf{Z})(\mathbf Z'\mathbf Z)^{-1}\mathbf Z'\mathbf X)^{-1}\mathbf X'\mathbf Z(\mathbf Z'\mathbf Z)^{-1}\mathbf Z'\mathbf Y
+\end{equation}
+This is the two-stage least squares estimator.
+$\hat\beta_{2SLS}$ can be thought of as an estimator with the constructed instrument $(\mathbf{Z}\hat\pi)$ where $\hat\pi = (\mathbf{Z}'\mathbf{Z})^{-1}(\mathbf{Z}'\mathbf{X})$.
+\par
+Representing (2.7) in terms of the projection matrix  $P_{Z}=\mathbf Z(\mathbf Z'\mathbf Z)^{-1}\mathbf Z'$:
+\begin{equation}
+\hat{\beta }_{2SLS}=((\mathbf X'P_{Z}\mathbf X)^{-1}\mathbf X'P_{Z}\mathbf Y)
+\end{equation}
+The two-stage least squares is by far the most widely used estimator for instrumental variables estimation, however, as we briefly discussed in chapter 1, it has certain concerning limitations, which we expand upon in the next section.
+
+\subsection{Limitations of 2SLS: Bias}
+In the weak instruments case, the 2SLS estimator fails to provide unbiased, reliable estimates. As shown in Section 2.3, we arrived at the 2SLS estimator using an estimate of $\pi$ since the true value of the first-stage coefficients is unknown, which implies a certain amount of
+over-fitting of the first-stage equation, leading to bias in the
+direction of the expectation of the OLS estimator of $\beta$.
+
+
+\par There is considerable  theoretical research noting the poor finite-sample properties of instrumental variables estimator. Results on the magnitude of this bias have been provided by \cite{nagar1959bias}, \cite{richardson1968exact}, \cite{sawa1969exact} and \cite{buse1992bias}. Further, as shown by noteworthy results of \cite{bound1995problems}, with weak instruments particularly, the finite sample behavior worsens and the estimator can become biased as well as inconsistent.
+
+
+\subsubsection{Bias in Single Instrument case}
+To visualize the problem intuitively, first let us consider the simple case of a single (weak) instrument and endogenous regressor:
+
+        $$Y_i = X_i\beta + \varepsilon_i$$
+$$X_i = Z_i\pi_1 + \eta_i$$
+
+In this case, the 2SLS estimator is simply given by the ratio of the two covariances: 
+\begin{equation}
+    \hat\beta_{2SLS}=\frac{\sigma_{Y_iZ_i}}{\sigma_{X_iZ_i}}
+\end{equation}
+However, given the fact that our instrument is very weak,
+$\sigma_{X_iZ_i}=0.$ 
+Hence, $\hat\beta_{2SLS}$ does not exist.
+\par In the simplest case, the 2SLS estimator is just the ratio of two covariances, and with weak instruments, the 2SLS or general instrumental variables estimator does not exist.
+    
+
+
+\subsubsection{Approximate Expression of Bias in Multiple-Instruments case}
+In this section we provide two different expressions approximating the bias of the two-stage least squares estimator in the general case and show how it centers around ordinary least squares. 
+\par Defining the `relative bias' of 2SLS to be its bias relative to the
+inconsistency of OLS, \cite{buse1992bias} derived an expression for the approximate bias of $\hat\beta_{2SLS}$ using power series approximations. This result holds even when the errors are not normally distributed: 
+\begin{equation}
+  \frac{\sigma_{\varepsilon\eta }(K-2)}{\pi'\mathbf Z'\mathbf Z\pi}  
+\end{equation}
+
+where N is the sample size and K is the number of excluded instruments.
+This expression is approximately inversely proportional to $\mu^2/(K-2)$, as shown:
+
+\begin{equation}
+\frac{\sigma_{\varepsilon\eta}{\sigma_\eta^2}(K-2)}{{\sigma_\eta^2}\pi'\mathbf Z'\mathbf Z\pi} = \frac{\sigma_{\varepsilon\eta}(K-2)}{{\sigma_\eta^2}{\mu^2}}  
+\end{equation}
+where $\mu^2$ denotes the concentration parameter (measure of the strength of the instrument as discussed in Section 1.). Note that in the above equation, the term $\frac{\sigma_{\varepsilon\eta }}{\sigma_{\eta }^{2}}$ approximately equals the asymptotic bias of the OLS estimator when the instrument explains little of the variation of $\mathbf X$. Hence, from equation (2.10) it is clearly seen that for $K>2$, the bias of the 2SLS estimator relative to OLS is inversely proportional to the concentration parameter, hence, weaker the instrument(s), lower is the concentration parameter, and higher is the bias of 2SLS towards the OLS estimate.
+
+\par It can be seen from the above formulation that increasing the number of instruments with the explanatory power remaining constant, causes the relative bias of the 2SLS to only increase.
+
+\par Before moving on to the second expression, it is important to briefly introduce alternate asymptotic representations that are generally used for the weak instruments case.
+As discussed by \cite{stock2002survey}, for weak instruments, conventional asymptotic approximations to finite-sample distributions are quite poor. Two alternate asymptotic methods commonly employed are \textbf {weak-instrument asymptotics} (involving a sequence of models chosen to keep $\mu^2/K$ constant as sample size $N \rightarrow \infty$) pioneered by \cite{staiger1997stock} and \textbf {many-instrument or group asymptotics} (involving sequence of models with fixed instruments and normal errors, where $K$ is proportional to $N$ and $\mu^2/K$ converges to a constant finite limit), first proposed by \cite{bekker1994alternative}. In the 1995 working paper version of \cite{angrist1999jackknife}, it was referred to as group asymptotics.
+
+\par We present an expression for the approximate bias of the 2SLS estimator using group asymptotics, wherein we let
+the number of instruments grow proportional to rate of the sample size.
+This keeps the instruments weak. The detailed derivation of this expression is provided in the appendix A.1.
+\begin{equation}
+    E[\hat{\beta }_{2SLS}-\beta]\approx \frac{\sigma_{\varepsilon\eta }}{\sigma_{\eta }^{2}}\frac{1}{F+1}
+\end{equation}
+where F is the population analog of the F-statistic for the joint significance of the instruments in the first-stage regression. $\frac{\sigma_{\varepsilon\eta }}{\sigma_{\eta }^{2}}$ approximately equals the asymptotic bias of the OLS estimator. Given a weak first-stage (weak instruments case), $F\rightarrow0$, and we can see that the bias approaches $ \frac{\sigma_{\varepsilon\eta }}{\sigma_{\eta }^{2}}$. With a strong first-stage, $F\rightarrow \infty$ and then the 2SLS bias goes to 0. 
+ 
+
+
+\subsubsection{Inconsistency of the 2SLS estimator}
+In this section we relate the two conditions for instrumental variables estimation to the consistency property of the 2SLS estimator. If the weak correlation (between the instrument(s) and the endogenous variable) is coupled together with even a small violation of the second condition of instrumental variables estimation (which is the instrument exogeneity condition) then we have an inconsistent estimator. This insight was first discussed by \cite{bound1995problems}.
+
+
+
+To represent the problem discussed above, let us consider the probability limit of the 2SLS estimator:
+
+\begin{equation}
+plim \hat{\beta} _{2SLS}=\beta + \frac{\sigma _{\mathbf {\hat X},\varepsilon }}{\sigma _{\mathbf {\hat X}}^{2}}
+\end{equation}
+
+where $\mathbf {\hat X}$ is the projection of $\mathbf X$ onto $\mathbf Z$, and ${\sigma _{\mathbf {\hat X},\varepsilon }}$ is the covariance between $\mathbf {\hat X}$ and $\varepsilon$.
+
+From equation (2.13) we can intuitively understand that if $\sigma _{\mathbf {\hat X}}^{2}$ is small, which implies that we have a weak instrument, then as long as ${\sigma _{\mathbf {\hat X},\varepsilon }}$ is zero the estimator will be consistent. However, suppose we have a weak instrument  and also, ${\sigma _{\mathbf {\hat X},\varepsilon }}$ is small but non-zero, then even that small correlation between $\mathbf Z$ (and thus, $\mathbf {\hat X}$) and the structural error term $\varepsilon$ can lead to a large inconsistency.
+
+Hence, with weak instruments, even moderate correlation between instrument and structural error term can magnify the inconsistency of IV estimator. 

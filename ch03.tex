@@ -1,0 +1,42 @@
+\section{Testing for Weak Instruments}
+Testing for presence of weak instruments is, at the time of writing, an active field of research. For a detailed overview, see \cite{stock2002survey}. For the purpose of our study, we limit our attention to two tests - the widely-used first-stage F-statistic and the Anderson-Rubin Test, which has gained resurgence in recent years in light of new developments in instrumental variables research. 
+
+\subsection{Defining the `Weakness' precisely}
+\cite{stock2002testing} posit that the definition of weak instruments depends on the inferential task to be carried out, and cannot be resolved in the abstract. One approach is to define a set of instruments to be weak if $\mu^2/K$
+is small enough that inferences based on conventional normal
+approximating distributions are misleading. For instance, if a researcher wants their 2SLS estimate bias to be small, one measure
+of whether an instrument(s) is strong is whether $\mu^2/K$ is
+large enough such that the 2SLS relative bias (relative to the bias of ordinary least squares) is below a certain threshold, for example the relative bias is below 10\%. Hence, to be deemed a `weak' instrument, the 2SLS estimate using that instrument should have relative bias above 10\%. The definition we discussed (and use for our simulation) is based on relative bias, another definition (for instance on size of test) may result in a different cut-off value.
+
+
+\subsection{First Stage F-statistic}
+The first-stage F-statistic is the F-statistic testing the hypothesis that the coefficients on the instruments equal zero ($\pi=0$) in the first stage of two stage least squares. 
+\cite{stock2002testing} show that the definition of weak instruments discussed above implies a threshold value for $\mu^2/K$, under weak asymptotics. A weak instrument will have a $\mu^2/K$ value (and hence, an F-statistic value, since F$-$1 can be treated as an estimator of $\mu^2/K$ as discussed in Section 2.2) lower than the threshold.
+For the case of a single endogenous regressor, \cite{staiger1997stock} provide a rule-of thumb threshold of 10: a value less than 10 indicates that the instruments are weak, in which case the 2SLS estimator is biased and 2SLS t-statistics and confidence intervals are unreliable.
+
+\cite{stock2002survey} provide a table listing critical values of the first-stage F-statistic such that the relative bias of 2SLS estimates is greater than 10\%, for different numbers of instruments. The authors arrived at those critical values based on weak-instrument asymptotic approximations. We include a subset of this table (which is relevant for our simulations) as Table B.1 in appendix B for reference.
+
+
+\subsection{Anderson-Rubin Test}
+
+
+The AR test is a hypothesis test that has the property of being valid whether instruments are strong, weak or even irrelevant ($\pi=0$). It tests the null hypothesis $\beta$ = $\beta_0$ using the statistic. It was proposed by \cite{anderson1949estimation}.
+
+\begin{equation}
+  AR(\beta) = \frac{(\mathbf Y- \mathbf X\beta)' P_z (\mathbf Y-\mathbf X\beta)/K}{(\mathbf Y-\mathbf X\beta)' \mathbf M_Z (\mathbf Y-\mathbf X\beta)/(N-K)}
+        \end{equation}
+        
+One definition of the LIML estimator is that it minimizes
+$AR(\beta)$.
+With fixed instruments and normal errors, the quadratic
+forms in the numerator and denominator of (3.1) are independent
+chi-squared random variables under the null hypothesis,
+and $AR(\beta_0)$ has an exact $F_{K,T - K}$ null distribution. Under the more general conditions of weak-instrument asymptotics, $AR(\beta_0)$ $\xrightarrow{\text{d}}$ ${\chi_k}^2/K$ under the null hypothesis, regardless of the
+value of $\mu^2/K$. Thus the AR statistic provides a fully robust
+test of the hypothesis $\beta$ = $\beta_0$.
+\par The set of
+values of $\beta$ that are not rejected by a 5\% Anderson–Rubin test will constitute a 95\% confidence
+set for $\beta$. The logic behind the Anderson–Rubin statistic is that it
+never assumes instrument relevance, and the AR confidence set will have a
+coverage probability of 95\% in large samples, regardless of the strength or weakness of instruments.
+In light of the importance given to the problem of weak instruments in recent years, this test has gained traction among econometricians, who increasingly advocate for its use for robust inference with weak instruments (See \cite{staiger1997stock}). Particularly, recent research has shown the AR confidence set to be optimal in the single-endogenous-regressor just-identified setting.

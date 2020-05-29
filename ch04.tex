@@ -1,0 +1,94 @@
+\section{Alternative Estimators}
+In this section we present a detailed overview of two alternative estimators which in theory exhibit better finite sample properties. 
+\par Both of these estimators, the Jackknife IV estimator and the LIML estimator, fall under the broader class of k-class estimators. These estimators are partially robust ie less sensitive to weak instruments; with weak instruments, they are more reliable than 2SLS estimates. Conventional asymptotic approximations are used for their inference.
+
+\subsection{Jackknife Instrumental Variables Estimator}
+For an intuitive sense of the functioning of the jackknife instrumental variables estimator, consider the term `jackknife' as presented in statistical literature. The  jackknife estimator of a parameter is found by leaving out each observation from a dataset, calculating the estimate and computing the average of these calculations. Given a sample of size $N$, the jackknife estimate is found by aggregating the estimates of each sub-sample of size $(N-1)$. In a similar vein, the estimator we describe in this section replaces the usual fitted values from the reduced form regression of the two-stage least squares by `omit-one' fitted values.
+\par The key feature of the JIVE estimator is that it eliminates the correlation between the fitted values and the structural equation errors, as explain in detail below. The fitted value of the standard 2SLS estimator is only asymptotically independent of the structural error ($\varepsilon_i$), but the JIVE is independent even in finite samples.
+\par The derivation we present in this section is adopted from \cite{angrist1999jackknife}. To derive the expression formally, consider again the expressions for $\hat\beta_{OPT}$ and $\hat\beta_{2SLS}$ from section 2.2, equations (2.4) and (2.5). $\hat\beta_{OPT}$ employed the optimal instrument $\mathbf Z\pi$ and $\hat\beta_{2SLS}$ used an estimate of $\mathbf Z\pi$, denoted by $\mathbf Z\hat \pi$. Now we introduce the new estimator for $\beta$ by using a different estimate of the optimal instrument, $Z_{i}\tilde{\pi}$. 
+
+\par From the formulation of approximate bias of the 2SLS estimator we presented in section 2.4.2 (equation 2.11), it is clear that increasing the number of instruments while keeping the explanatory/predictive power of the instruments constant, leads to an increase in the bias of $\hat\beta_{2SLS}$. However, we can see that for the optimal estimator, increasing the number of instruments while keeping $Z_i\pi$ fixed will have no effect on the properties of $\hat\beta_{OPT}$. Thus, for finite samples in the presence of many instruments, $\hat\beta_{2SLS}$ fares much worse than $\hat\beta_{OPT}$. 
+\par Recall the representation of the 2SLS estimator using the projection matrix $P_Z$ from Section 2 (equation 2.8). We can see that the first-stage fitted values $\mathbf Z\hat{\pi}$ can be written as:
+
+\begin{equation}
+\mathbf Z\hat{\pi} = P_Z\mathbf X = \mathbf Z \pi + P_Z\eta
+\end{equation}
+
+The term $P_Z\eta$ in the above equation is correlated with the error term of the first-stage $\eta$ (see equation 1.2) and hence with the structural error term $\varepsilon$. Put differently, since $\hat \pi$ is estimated on the full sample which includes the $i$th observation, it is correlated with $\eta_i$, which is correlated with $\varepsilon_i$. This correlation is given by:
+
+\begin{equation}
+E[\varepsilon_{i}Z_{i}\hat{\pi}]
+=E[E[\varepsilon_i Z_i\hat\pi|\mathbf Z]]
+=E[Z_i(\mathbf Z^\prime \mathbf Z)^{-1} Z_i^\prime] \cdot E[\varepsilon_i \eta_i|\mathbf Z]]
+=E[Z_i(\mathbf Z^\prime \mathbf Z)^{-1} Z_i^\prime \cdot \sigma_{\varepsilon\eta}^\prime]
+=(K/N)\cdot\sigma_{\varepsilon\eta}'
+\end{equation}
+
+Due to this correlation between $\hat \pi$ and $\varepsilon_i$, $\hat\beta_{2SLS}$ is biased for $\beta$. While the correlation disappears asymptotically, it holds implications in finite samples. 
+
+\par In devising the new instrument, we attempt to keep the correlation in (4.2) equal to zero. The problem stems from $\hat \pi$ being estimated on the full sample which includes the $i$th observation. For the new estimator which has the constructed instrument $Z_{i}\tilde{\pi}$, $\tilde\pi$ is estimated not on the full sample but on the sample with the $i$th observation removed. Therefore, the new estimated instrument will be independent of $\varepsilon_i$ even in finite samples.
+
+    
+The $i$th row of the estimated instrument for 2SLS, $\mathbf Z\hat{\pi}$, where $\hat{\pi}=(\mathbf Z'\mathbf Z)^{-1}(\mathbf Z'\mathbf X)$, is given by
+\begin{equation}
+Z_{i}\hat{\pi}= Z_{i}({\mathbf Z}'\mathbf Z)^{-1}(\mathbf Z'\mathbf X)
+\end{equation}
+ 
+Remove the $i$th row from the matrices of regressors and instruments and denote them by $\mathbf X(i)$ and $\mathbf Z(i)$. Thus JIVE removes the dependence between $Z_{i}\hat{\pi}$ and the regressor $X_{i}$.
+
+The corresponding estimate of $\pi$ and the constructed instrument will be:
+\begin{equation}
+\tilde{\pi}(i)=(\mathbf Z(i)'\mathbf Z(i))^{-1}(\mathbf Z(i)'\mathbf X(i))
+\end{equation}
+
+\begin{equation}
+Z_{i}\tilde{\pi}(i)=Z_{i}(\mathbf Z(i)'\mathbf Z(i))^{-1}(\mathbf Z(i)'\mathbf X(i)Y)
+\end{equation}
+$\varepsilon_{i}$ and $X_{j}$ are independent when $i\neq j$, so it follows that
+\begin{equation}
+E[\varepsilon_{i}Z_{i}\tilde{\pi}(i)]=E[Z_{i}(\mathbf Z(i)'\mathbf Z(i))^{-1}(\mathbf Z(i)')E[\mathbf X(i)\varepsilon_{i}|\mathbf Z]]=0
+\end{equation}
+
+Hence, now we have $E[\varepsilon_{i}Z_{i}\tilde{\pi}(i)]=0$, so we have removed the correlation between the fitted values and the structural error presented in equation (4.2).
+\par The JIVE estimator is equal to:
+
+\begin{equation}
+\hat{\beta}_{JIVE}=(\mathbf {\hat{X}}_{JIVE}'\mathbf X)^{-1}(\mathbf {\hat{X}}_{JIVE}'\mathbf Y)
+\end{equation}
+where $\hat{X}_{JIVE}$ is $N\times L$ dimensional matrix with the $i$ th row $Z_{i}\tilde{\pi}(i)$. \\
+
+
+\par \cite{blomquist1999small} summarize the construction of the JIVE estimator by providing the following algorithm:  
+
+
+%\vspace{0.6cm}
+\begin{algorithm}
+\caption{Jackknife Instrumental Variables Estimator}\label{alg:euclid}
+\begin{algorithmic}[1]
+\State Use all observations but the $i$th to estimate parameters of the first-stage equation.
+\State Combine the estimated first stage parameters with the instruments for the $i$th observation, $Z_i$, to construct a fitted value for the $i$th observation $X_i$.
+\State Repeat steps 1 and 2 for all N observations.
+\State Regress Y on the fitted values and the exogenous regressors.
+\end{algorithmic}
+\end{algorithm}
+
+The estimator for $Z_i\pi$, $Z_{i}\tilde{\pi}(i)$ is consistent.
+$\hat{\beta}_{JIVE}$ has the same probability limit and first-order asymptotic distribution as $\hat{\beta}_{OPT}$ and $\hat{\beta}_{2SLS}$, under conventional fixed model asymptotics (\cite{stock2002survey}).
+
+\subsection{Limited Information Maximum-Likelihood Estimator}
+
+Limited Information Maximum Likelihood (LIML) is an alternative method to estimate the parameters of the structural equation. It was formalized by \cite{anderson1949estimation}.\\
+We follow the same model as described in Section 2, and extend it as shown below: 
+\begin{equation}
+ \mathbf{Y} = \mathbf{X}\beta + \varepsilon = \mathbf{X_0}\beta_0 + \mathbf{X_1}\beta_1 + \varepsilon
+\end{equation}
+\begin{equation}
+ \mathbf{X_1} = \mathbf{Z}\pi + \eta = \mathbf{Z_0}\pi_0 + \mathbf{Z_1}\pi_1 + \eta
+\end{equation}
+where $\mathbf{Z_0} = \mathbf{X_0}$.\\
+Here, $\mathbf{X_0}$ is the matrix of exogenous variables and $\mathbf{X_1}$ of endogenous variables. $\mathbf{Z_0} = \mathbf{X_0}$ is the matrix of included exogenous variables, $\mathbf{Z_1}$ is the matrix of excluded exogenous variables.
+Because the LIML estimator is based on the structural equation for $\mathbf{Y}$ combined with the first-stage equation for $\mathbf{X_1}$, it is called `limited information'. LIML estimator is given by:
+\begin{equation}
+\hat\beta_{LIML}=(\mathbf X'(\mathbf I-\hat\kappa \mathbf M_Z)\mathbf X)^{-1}\mathbf X'(\mathbf I-\hat\kappa \mathbf M_Z)\mathbf Y
+\end{equation}
+\par The LIML estimator has some excellent properties when the number of excluded instruments (number of columns in matrix $\mathbf X_1$) in the first-stage equation and the sample size are large. Although the LIML estimator and the 2SLS estimator are asymptotically equivalent in the standard large sample theory, they are quite different in case of many instruments or many weak instruments. It has no finite moments, which implies that its density tends to have very thick tails. \cite{anderson2010asymptotic} show that the LIML estimator shows asymptotic optimality with many weak instruments.

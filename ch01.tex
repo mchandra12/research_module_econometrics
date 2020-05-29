@@ -1,0 +1,27 @@
+\section{Introduction} Instrumental variables estimation has gained considerable traction in recent decades as a tool for causal inference, particularly amongst empirical researchers. However, this has also highlighted the importance of taking a deeper look at the theoretical properties underlying one's estimator of choice, whether it is instrumental variable estimator or any other estimator. A case-in-point is the well-known 1991 quarter-of-birth study on returns to schooling estimates by \cite{angrist1991does} and the equally famous rebuttal of their results published by \cite{bound1995problems}.
+
+\par The \cite{bound1995problems} critique of the quarter-of-birth study in essence formed the starting point of the weak instruments literature. They provided simulation evidence that the instruments used by \cite{angrist1991does} were very weak and this in turn led to misleading results. Interestingly, their study was not the first time that the poor finite-sample behavior of the instrumental variables estimator (two-stage least squares estimator in particular) was discussed. Previously, numerous authors had presented results on the magnitude of the finite-sample bias of the 2SLS estimator towards OLS, such as \cite{nagar1959bias}, \cite{basmann1960asymptotic}, \cite{richardson1968exact} and \cite{sawa1969exact}.
+However, their critique was the first to suggest some practices for the detection of possible presence of weak instruments (reporting first-stage F-statistic and the $R^2$ of the first stage regression), which have since become standard practice for using instrumental variables in empirical studies.
+
+\par The literature on weak instruments have since developed considerably and continues to do so. \cite{staiger1997stock} showed that conventional asymptotic approaches fail to provide good approximations for weak instruments, and formalized the problem of weak instruments by introducing `weak-instrument asymptotics' which mimics the situation of weak instruments better. \cite{stock2002survey} provide a comprehensive survey of the weak instruments literature, wherein they emphasize that the problem of bias of the two-stage least-squares estimator is not
+solely a small sample problem. It affects estimates carried out on large sample sizes as well, as is the case with the quarter-of-birth study which has a dataset of around 300,000 observations.
+
+\par Further, given the poor finite-sample properties of the two-stage least squares estimator, numerous alternate estimators have also been proposed. These include the USSIV estimator suggested by \cite{angrist1995split}, Fuller-k estimator by \cite{fuller1977some}, bias-adjusted 2SLS estimator by \cite{donald2001choosing}, JIVE estimators by \cite{angrist1999jackknife} and \cite{blomquist1999small}. Another estimator, the LIML was formalized by \cite{anderson1949estimation}. In our paper, we take a deeper look at two of these estimators - JIVE and LIML estimators.
+
+\par We introduce the two conditions for instrumental variables estimation, the first of which will be a recurring theme in our paper, since it connects to the problem of weak instruments. Consider the standard population regression model:
+\begin{align*}
+Y_i &= \beta_0 + \beta_1X_i + \varepsilon_i, \: \: \: \: i = 1,2,...n 
+\end{align*}
+where $\varepsilon_i$ is the error term representing omitted factors that determine $Y_i$. Variables correlated with the error term are termed endogenous variables and those uncorrelated with the error term are exogenous. A valid instrument $Z_i$ must satisfy two conditions:
+\begin{itemize}
+    \item Instrument Relevance: corr ($Z_i$, $X_i$) $\neq 0.$\\
+    It is the implications of this condition, specifically the strength (or weakness) of this correlation between the instrument and the endogenous regressor, that we are interested in. Instruments that explain little of the variation in X are called weak instruments. A precise definition is introduced in section 3.1.
+    \item Instrument Exogeneity: corr ($Z_i$, $\varepsilon_i$) = 0\\
+    Note that this condition cannot be statistically tested, since it involves the covariance between $Z_i$ and the unobserved $\varepsilon_i$.
+\end{itemize}
+\par If number of instruments (K) equals the number
+of endogenous regressors (L) we have the just or exactly identified case.  If the number of instruments exceeds the number of endogenous regressors, K $\geq$ L, then we have the over-identified case. 
+
+
+
+\par The rest of the paper is sectioned as follows. Chapter 2 presents a derivation of the 2SLS estimator and its limitations in the weak instruments case. Chapter 3 discusses methods to test for weak instruments. Chapter 4 presents the alternative estimators (JIVE and LIML). Chapter 5 presents the simulation study. Chapter 6 presents the application to returns to schooling. Chapter 7 concludes.
